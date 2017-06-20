@@ -1,0 +1,5 @@
+.laya/
+bin/
+jsconfig.json
+laya/.laya
+libs/
