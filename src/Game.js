@@ -3,5 +3,11 @@ var Game = (function() {
         Laya.init(400, 852);
         this.bg = new BackGround();
         Laya.stage.addChild(this.bg);
+        Laya.loader.load("res/atlas/war.json", Laya.Handler.create(this, onLoaded), null, Laya.Loader.ATLAS);
     })();
+    function onLoaded() {
+        this.hero = new Role();
+        this.hero.pos(200, 500);
+        Laya.stage.addChild(this.hero);
+    }
 })();
