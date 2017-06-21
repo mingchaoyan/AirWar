@@ -9,5 +9,9 @@ var Game = (function() {
         this.hero = new Role();
         this.hero.pos(200, 500);
         Laya.stage.addChild(this.hero);
+        Laya.stage.on(Laya.Event.MOUSE_MOVE, this, onmousemove);
+    }
+    function onmousemove() {
+        this.hero.pos(Laya.stage.mouseX, Laya.stage.mouseY);
     }
 })();
