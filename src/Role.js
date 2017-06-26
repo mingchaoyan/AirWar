@@ -12,7 +12,13 @@ var Role = (function(_super){
         this.hp = _hp;
         this.speed = _speed;
         this.hitRadius = _hitRadius;
+        this.shootType = 0;
+        this.shootInterval = 500;
+        this.shootTime = Laya.Browser.now()+2000;
+        this.action = "";
+        this.isBullet = false;
         if (!Role.cached) {
+            Role.cached = true;
             Laya.Animation.createFrames(["war/hero_fly1.png", "war/hero_fly2.png"], "hero_fly");
             Laya.Animation.createFrames(["war/hero_down1.png", "war/hero_down2.png", "war/hero_down3.png", "war/hero_down4.png"], "hero_down");
 
@@ -26,15 +32,28 @@ var Role = (function(_super){
             Laya.Animation.createFrames(["war/enemy3_fly1.png", "war/enemy3_fly2.png"], "enemy3_fly");
             Laya.Animation.createFrames(["war/enemy3_down1.png", "war/enemy3_down2.png", "war/enemy3_down3.png", "war/enemy3_down4.png", "war/enemy3_down5.png", "war/enemy3_down6.png"], "enemy3_down");
             Laya.Animation.createFrames(["war/enemy3_hit.png", "enemy3_hit"]);
+
+            Laya.Animation.createFrames(["war/bullet1.png"], "bullet1_fly");
         }
         if (!this.body) {
             this.body = new Laya.Animation();
             this.addChild(this.body);
+
+            this.body.on(Laya.Event.COMPLETE, this, this.onPlayComplete);
         }
         this.playAction("fly");
     }
+    _proto.onPlayComplete = function() {
+        if(this.action == "down") {
+            this.body.stop();
+            this.visible = false;
+        } else if (this.action == "hit"){
+            this.playAction("fly");
+        }
+    }
 
     _proto.playAction = function(action) {
+        this.action = action;
         this.body.play(0, true, this.type + "_"+action);
         this.bound = this.body.getBounds();
         this.body.pos(-this.bound.width/2, -this.bound.height/2);
