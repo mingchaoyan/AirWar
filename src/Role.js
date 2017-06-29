@@ -1,17 +1,23 @@
 var Role = (function(_super){
     function Role() {
+        console.log("Role");
         Role.super(this);
         //this.init();
     }
     Role.cached = false;
     Laya.class(Role, "Role", _super);
     var _proto = Role.prototype;
-    _proto.init = function(_type, _camp, _hp, _speed, _hitRadius) {
+    _proto.init = function(_type, _camp, _hp, _speed, _hitRadius, _heroType = 0) {
+        this.body = null;
+        console.log(_type);
         this.type = _type;
+        // 0 我方 1 敌方
         this.camp = _camp;
         this.hp = _hp;
         this.speed = _speed;
         this.hitRadius = _hitRadius;
+        //0 飞机，1子弹 2 药包 3 补给
+        this.heroType = _heroType;
         this.shootType = 0;
         this.shootInterval = 500;
         this.shootTime = Laya.Browser.now()+2000;
@@ -34,6 +40,9 @@ var Role = (function(_super){
             Laya.Animation.createFrames(["war/enemy3_hit.png"], "enemy3_hit");
 
             Laya.Animation.createFrames(["war/bullet1.png"], "bullet1_fly");
+
+            Laya.Animation.createFrames(["war/ufo1.png"], "ufo1_fly");
+            Laya.Animation.createFrames(["war/ufo2.png"], "ufo2_fly");
         }
         if (!this.body) {
             this.body = new Laya.Animation();
@@ -54,7 +63,7 @@ var Role = (function(_super){
 
     _proto.playAction = function(action) {
         this.action = action;
-        this.body.play(0, true, this.type + "_"+action);
+        this.body.play(0, true, this.type + "_"+this.action);
         this.bound = this.body.getBounds();
         this.body.pos(-this.bound.width/2, -this.bound.height/2);
     }

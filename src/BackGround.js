@@ -1,5 +1,6 @@
 var BackGround = (function(_super){
     function BackGround() {
+        console.log("background");
         BackGround.super(this);
         this.bg1 = new Laya.Sprite();
         this.bg1.loadImage("war/background.png");
