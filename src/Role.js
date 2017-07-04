@@ -8,7 +8,7 @@ var Role = (function(_super){
     Laya.class(Role, "Role", _super);
     var _proto = Role.prototype;
     _proto.init = function(_type, _camp, _hp, _speed, _hitRadius, _heroType = 0) {
-        this.body = null;
+        //this.body = null;
         console.log(_type);
         this.type = _type;
         // 0 我方 1 敌方
